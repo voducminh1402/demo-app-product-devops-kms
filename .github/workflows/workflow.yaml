@@ -84,7 +84,7 @@ jobs:
           export ECR_REPOSITORY_URL="816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}"
           envsubst < deployment/deployment.yaml > k8s/k8s-deployment.yaml
           echo "resources:" > k8s/kustomization.yaml
-          echo "- deployment/deployment.yaml" >> k8s/kustomization.yaml
+          echo "- deployment.yaml" >> k8s/kustomization.yaml
           kubectl kustomize k8s | kubectl apply -f - --force
 
 

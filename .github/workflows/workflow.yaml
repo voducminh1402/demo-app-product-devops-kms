@@ -57,9 +57,7 @@ jobs:
           path: target
 
       - name: Build Docker image
-        run: |
-          docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
-          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA} 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
+        run: docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
 
       - name: Install and configure AWS CLI
         run: |
@@ -68,11 +66,16 @@ jobs:
           sudo ./aws/install --update
           aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws configure set default.region us-east-1
+          aws configure set default.region us-west-2
 
       - name: Login to ECR
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 816069145944.dkr.ecr.us-east-1.amazonaws.com
+
+      - name: Tag Docker image with both latest and commit SHA
+        run: |
+          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
+          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
 
       - name: Push Docker images
         run: |
@@ -83,11 +86,8 @@ jobs:
         run: |
           aws eks update-kubeconfig --region us-east-1 --name dev-demo
           mkdir -p k8s
-          export ECR_REPOSITORY_URL="816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest"
+          export ECR_REPOSITORY_URL="816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}"
           envsubst < k8s-deployment.yaml > k8s/k8s-deployment.yaml
           echo "resources:" > k8s/kustomization.yaml
           echo "- k8s-deployment.yaml" >> k8s/kustomization.yaml
           kubectl kustomize k8s | kubectl apply -f - --force
-
-
-

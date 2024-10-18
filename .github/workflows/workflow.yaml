@@ -79,7 +79,7 @@ jobs:
 
       - name: Deploy to EKS
         run: |
-          aws eks update-kubeconfig --region us-east-1 --name my-eks-cluster
+          aws eks update-kubeconfig --region us-east-1 --name dev-demo
           mkdir -p k8s
           export ECR_REPOSITORY_URL="816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}"
           envsubst < k8s-deployment.yaml > k8s/k8s-deployment.yaml

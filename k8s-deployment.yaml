@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: product-management
-          image: 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
+          image: 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
           ports:
             - containerPort: 8080
               name: http

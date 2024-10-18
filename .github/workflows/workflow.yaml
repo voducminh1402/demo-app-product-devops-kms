@@ -72,15 +72,21 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 816069145944.dkr.ecr.us-east-1.amazonaws.com
 
-      - name: Tag Docker image with both latest and commit SHA
+      - name: Tag Docker image with 'latest'
         run: |
-          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
           docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
 
-      - name: Push Docker images
+      - name: Push Docker image with 'latest' tag (will override if it exists)
+        run: |
+          docker push 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
+
+      - name: Tag Docker image with commit SHA
+        run: |
+          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
+
+      - name: Push Docker image with commit SHA
         run: |
           docker push 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA}
-          docker push 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
 
       - name: Deploy to EKS
         run: |

@@ -5,7 +5,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 # Copy the compiled JAR file (built using `./mvnw clean package`) into the container
-COPY target/product-management-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY target/product-management-0.0.1.jar /app/app.jar
 
 # Set the entry point for the application
 ENTRYPOINT ["java", "-jar", "app.jar"]

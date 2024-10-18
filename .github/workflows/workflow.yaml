@@ -57,7 +57,9 @@ jobs:
           path: target
 
       - name: Build Docker image
-        run: docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
+        run: |
+          docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
+          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA} 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
 
       - name: Install and configure AWS CLI
         run: |
@@ -71,10 +73,6 @@ jobs:
       - name: Login to ECR
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 816069145944.dkr.ecr.us-east-1.amazonaws.com
-
-      - name: Tag Docker image with 'latest' and Git SHA
-        run: |
-          docker tag 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:${GITHUB_SHA} 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms:latest
 
       - name: Push Docker images
         run: |

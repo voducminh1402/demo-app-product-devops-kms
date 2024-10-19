@@ -21,7 +21,7 @@ public class ProductController {
     @GetMapping
     public List<Product> getAllProducts() {
         List<Product> productList = productService.getAllProducts();
-        log.info("List product will be returned {}", productList.toArray().toString());
+        log.info("List product will be returned");
         return productList;
     }
 

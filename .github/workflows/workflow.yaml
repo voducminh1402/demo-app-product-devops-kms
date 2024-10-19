@@ -56,11 +56,6 @@ jobs:
           name: app-jar
           path: target
 
-      - name: Set environment variables
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
-
       - name: Build Docker image
         run: docker build -t 816069145944.dkr.ecr.us-east-1.amazonaws.com/ecr-dev-devops-kms .
 

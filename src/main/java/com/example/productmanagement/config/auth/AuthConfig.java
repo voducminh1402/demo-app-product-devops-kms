@@ -51,8 +51,8 @@ public class AuthConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Allow React frontend
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Allow common HTTP methods
+        configuration.setAllowedOrigins(Arrays.asList("*")); // Allow React frontend
+        configuration.setAllowedMethods(Arrays.asList("*")); // Allow common HTTP methods
         configuration.setAllowedHeaders(Arrays.asList("*")); // Allow all headers
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

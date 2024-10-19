@@ -11,7 +11,7 @@ public class SqsMessageSender {
     @Autowired
     private AmazonSQS amazonSQS;
 
-    private final String queueUrl = "https://sqs.us-east-1.amazonaws.com/816069145944/test-queue-sqs-1";
+    private final String queueUrl = "https://sqs.us-east-1.amazonaws.com/816069145944/test-sqs-queue-1";
 
     public void sendMessage(String messageBody) {
         SendMessageRequest sendMessageRequest = new SendMessageRequest()
